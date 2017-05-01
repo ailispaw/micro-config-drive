@@ -97,22 +97,22 @@ fi
 AC_SUBST(PASSWD)
 AC_DEFINE_UNQUOTED([PASSWD_PATH], ["$PASSWD"], [Path to passwd binary])
 
-AC_PATH_PROG([GROUPADD], [groupadd], [/usr/sbin/groupadd], [$PATH:/sbin:/usr/sbin])
-if ! test -f "$GROUPADD" ; then
+AC_PATH_PROG([GROUPADD], [groupadd], [no], [$PATH:/sbin:/usr/sbin])
+if test x"$GROUPADD" == x"no" ; then
    AC_MSG_ERROR([Please install groupadd.])
 fi
 AC_SUBST(GROUPADD)
 AC_DEFINE_UNQUOTED([GROUPADD_PATH], ["$GROUPADD"], [Path to groupadd binary])
 
-AC_PATH_PROG([USERMOD], [usermod], [/usr/sbin/usermod], [$PATH:/sbin:/usr/sbin])
-if ! test -f "$USERMOD" ; then
+AC_PATH_PROG([USERMOD], [usermod], [no], [$PATH:/sbin:/usr/sbin])
+if test x"$USERMOD" == x"no" ; then
    AC_MSG_ERROR([Please install usermod.])
 fi
 AC_SUBST(USERMOD)
 AC_DEFINE_UNQUOTED([USERMOD_PATH], ["$USERMOD"], [Path to usermod binary])
 
-AC_PATH_PROG([USERADD], [useradd], [/usr/sbin/useradd], [$PATH:/sbin:/usr/sbin])
-if ! test -f "$USERADD" ; then
+AC_PATH_PROG([USERADD], [useradd], [no], [$PATH:/sbin:/usr/sbin])
+if test x"$USERADD" == x"no" ; then
    AC_MSG_ERROR([Please install useradd.])
 fi
 AC_SUBST(USERADD)
