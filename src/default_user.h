@@ -39,11 +39,11 @@
 #endif
 
 #ifndef DEFAULT_USER_HOME_DIR
-	#define DEFAULT_USER_HOME_DIR "/home/clear"
+	#define DEFAULT_USER_HOME_DIR "/home/bargee"
 #endif /* DEFAULT_USER_HOME_DIR */
 
 #ifndef DEFAULT_USER_GROUPS
-	#define DEFAULT_USER_GROUPS "wheel"
+	#define DEFAULT_USER_GROUPS "docker"
 #endif /* DEFAULT_USER_GROUPS */
 
 #ifndef DEFAULT_USER_INACTIVE
@@ -59,11 +59,11 @@
 #endif /* DEFAULT_USER_SHELL */
 
 #ifndef DEFAULT_USER_USERNAME
-	#define DEFAULT_USER_USERNAME "clear"
+	#define DEFAULT_USER_USERNAME "bargee"
 #endif /* DEFAULT_USER_USERNAME */
 
 #ifndef DEFAULT_USER_GECOS
-	#define DEFAULT_USER_GECOS "Clear Linux"
+	#define DEFAULT_USER_GECOS "Barge"
 #endif /* DEFAULT_USER_GECOS */
 
 #ifndef DEFAULT_USER_PASSWORD
