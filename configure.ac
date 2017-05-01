@@ -83,19 +83,12 @@ fi
 AC_SUBST(SHELL)
 AC_DEFINE_UNQUOTED([SHELL_PATH], ["$SHELL"], [Path to sh binary])
 
-AC_PATH_PROG([HOSTNAMECTL], [hostnamectl], [no], [$PATH:/sbin:/usr/sbin])
-if test x"$HOSTNAMECTL" == x"no" ; then
-   AC_MSG_ERROR([Please install hostnamectl.])
+AC_PATH_PROG([HOSTNAME], [hostname], [no], [$PATH:/sbin:/usr/sbin])
+if test x"$HOSTNAME" == x"no" ; then
+   AC_MSG_ERROR([Please install hostname.])
 fi
-AC_SUBST(HOSTNAMECTL)
-AC_DEFINE_UNQUOTED([HOSTNAMECTL_PATH], ["$HOSTNAMECTL"], [Path to hostnamectl binary])
-
-AC_PATH_PROG([SYSTEMCTL], [systemctl], [no], [$PATH:/sbin:/usr/sbin])
-if test x"$SYSTEMCTL" == x"no" ; then
-   AC_MSG_ERROR([Please install systemctl.])
-fi
-AC_SUBST(SYSTEMCTL)
-AC_DEFINE_UNQUOTED([SYSTEMCTL_PATH], ["$SYSTEMCTL"], [Path to systemctl binary])
+AC_SUBST(HOSTNAME)
+AC_DEFINE_UNQUOTED([HOSTNAME_PATH], ["$HOSTNAME"], [Path to hostname binary])
 
 AC_PATH_PROG([PASSWD], [passwd], [no], [$PATH:/sbin:/usr/sbin])
 if test x"$PASSWD" == x"no" ; then
