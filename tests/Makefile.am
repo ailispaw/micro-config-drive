@@ -24,10 +24,7 @@ libtest_la_SOURCES = \
 	../src/ccmodules/envar.c \
 	../src/ccmodules/groups.c \
 	../src/ccmodules/hostname.c \
-	../src/ccmodules/package_upgrade.c \
-	../src/ccmodules/packages.c \
 	../src/ccmodules/runcmd.c \
-	../src/ccmodules/service.c \
 	../src/ccmodules/ssh_authorized_keys.c \
 	../src/ccmodules/users.c \
 	../src/ccmodules/write_files.c \
