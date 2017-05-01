@@ -39,26 +39,20 @@
 
 #pragma once
 
-extern struct cc_module_handler_struct package_upgrade_cc_module;
 extern struct cc_module_handler_struct write_files_cc_module;
-extern struct cc_module_handler_struct packages_cc_module;
 extern struct cc_module_handler_struct groups_cc_module;
 extern struct cc_module_handler_struct users_cc_module;
 extern struct cc_module_handler_struct ssh_authorized_keys_cc_module;
-extern struct cc_module_handler_struct service_cc_module;
 extern struct cc_module_handler_struct hostname_cc_module;
 extern struct cc_module_handler_struct runcmd_cc_module;
 extern struct cc_module_handler_struct envar_cc_module;
 extern struct cc_module_handler_struct fbootcmd_cc_module;
 
 struct cc_module_handler_struct *cc_module_structs[] =  {
-	&package_upgrade_cc_module,
 	&write_files_cc_module,
-	&packages_cc_module,
 	&groups_cc_module,
 	&users_cc_module,
 	&ssh_authorized_keys_cc_module,
-	&service_cc_module,
 	&hostname_cc_module,
 	&runcmd_cc_module,
 	&envar_cc_module,

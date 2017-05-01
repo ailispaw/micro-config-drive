@@ -13,11 +13,9 @@ AM_CFLAGS = \
 
 EXTRA_DIST = \
 	LICENSE \
-	COPYING \
-	data/ucd.service.in
+	COPYING
 
-DISTCHECK_CONFIGURE_FLAGS =  \
-	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir) --enable-debug
+DISTCHECK_CONFIGURE_FLAGS = --enable-debug
 
 dist_man_MANS = \
 	docs/ucd.1 \
@@ -30,9 +28,6 @@ bin_PROGRAMS = \
 ucd_SOURCES = \
 	src/ccmodules.h \
 	src/ccmodules/groups.c \
-	src/ccmodules/package_upgrade.c \
-	src/ccmodules/packages.c \
-	src/ccmodules/service.c \
 	src/ccmodules/ssh_authorized_keys.c \
 	src/ccmodules/users.c \
 	src/ccmodules/write_files.c \
@@ -77,18 +72,3 @@ ucd_CFLAGS = $(AM_CFLAGS) $(GLIB_CFLAGS) $(YAML_CFLAGS) $(JSON_GLIB_CFLAGS) $(PA
 ucd_LDADD = $(GLIB_LIBS) $(YAML_LIBS) $(JSON_GLIB_LIBS) $(PARTED_LIBS) $(BLKID_LIBS)
 
 ucd_aws_CFLAGS = $(AM_CFLAGS)
-
-SYSTEMD_DIR=$(prefix)/lib/systemd/system/
-systemdsystemunitdir = @SYSTEMD_SYSTEMUNITDIR@
-systemdsystemunit_DATA = data/ucd.service data/ucd-aws.service
-
-systemdsystemunit-install-local:
-	mkdir -p $(DESTDIR)$(systemdsystemunitdir)/multi-user.target.wants/
-	ln -sf ../ucd.service $(DESTDIR)$(systemdsystemunitdir)/multi-user.target.wants/ucd.service
-
-install-data-local: systemdsystemunit-install-local
-
-systemdsystemunit-uninstall-local:
-	rm -f $(DESTDIR)$(systemdsystemunitdir)/multi-user.target.wants/ucd.service
-
-uninstall-local: systemdsystemunit-uninstall-local

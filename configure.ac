@@ -6,9 +6,7 @@ AC_INIT([micro-config-drive],[27],[dev@clearlinux.org])
 AM_INIT_AUTOMAKE([foreign -Wall -Wno-portability silent-rules subdir-objects color-tests no-dist-gzip dist-xz])
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_FILES([Makefile
-		tests/Makefile
-		data/ucd.service
-		data/ucd-aws.service])
+		tests/Makefile])
 AC_CONFIG_HEADERS([config.h])
 
 LT_INIT
@@ -128,33 +126,10 @@ AC_SUBST(USERADD)
 AC_DEFINE_UNQUOTED([USERADD_PATH], ["$USERADD"], [Path to useradd binary])
 
 # Options
-AC_ARG_WITH([systemdsystemunitdir], AS_HELP_STRING([--with-systemdsystemunitdir=DIR],
-	[path to systemd system service directory]), [path_systemdsystemunit=${withval}],
-	[path_systemdsystemunit="`$PKG_CONFIG --variable=systemdsystemunitdir systemd`"])
-	SYSTEMD_SYSTEMUNITDIR="${path_systemdsystemunit}"
-AC_SUBST(SYSTEMD_SYSTEMUNITDIR)
-AM_CONDITIONAL(SYSTEMD, test -n "${path_systemdsystemunit}")
-
 AC_ARG_WITH([datadir],[AC_HELP_STRING([--with-datadir=DIR],
 	[Default data directory (/var/lib/cloud)])], [datadir=${withval}],[datadir=/var/lib/cloud])
 AC_SUBST([DATADIR], ["${datadir}"], [Default data directory])
 AC_DEFINE_UNQUOTED([DATADIR_PATH], ["$DATADIR"], [Default data directory])
-
-AC_ARG_WITH([packagemgr],[AS_HELP_STRING([--with-packagemgr=PKGMGR],[Default package manager (swupd|yum|dnf|tdnf|apt)])], [packagemgr=${withval}],[packagemgr=swupd])
-AC_SUBST([PKGMGR], ["${packagemgr}"], [Default package manager])
-if test "x$PKGMGR" = "xswupd" ; then
-	AC_DEFINE([PACKAGE_MANAGER_SWUPD], [1], [Define if swupd package manager selected])
-elif test "x$PKGMGR" = "xyum" ; then
-	AC_DEFINE([PACKAGE_MANAGER_YUM], [1], [Define if yum package manager selected])
-elif test "x$PKGMGR" = "xdnf" ; then
-	AC_DEFINE([PACKAGE_MANAGER_DNF], [1], [Define if dnf package manager selected])
-elif test "x$PKGMGR" = "xtdnf" ; then
-	AC_DEFINE([PACKAGE_MANAGER_TDNF], [1], [Define if tdnf package manager selected])
-elif test "x$PKGMGR" = "xapt" ; then
-	AC_DEFINE([PACKAGE_MANAGER_APT], [1], [Define if apt package manager selected])
-else
-	AC_MSG_ERROR([Please provide a valid package manager (swupd, yum, dnf, tdnf, or apt).])
-fi
 
 # Checks for library functions.
 
