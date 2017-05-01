@@ -10,8 +10,7 @@ args="\
 --sysconfdir=/etc \
 --localstatedir=/var \
 --prefix=/usr \
---enable-silent-rules \
---disable-tests"
+--enable-silent-rules"
 
 if test -z "${NOCONFIGURE}"; then
   set -x
