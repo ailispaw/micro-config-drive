@@ -1,0 +1,13 @@
+.git/
+.gitignore
+
+.vagrant/
+Vagrantfile
+.ssh_config
+
+examples/
+
+AUTHORS
+COPYING
+LICENSE
+README

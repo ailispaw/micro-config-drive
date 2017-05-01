@@ -32,3 +32,6 @@ test-driver
 			
 # scan-build
 *.plist
+
+.vagrant/
+.ssh_config
