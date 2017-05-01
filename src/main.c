@@ -114,8 +114,10 @@ static bool async_setup_first_boot(__unused__ gpointer null) {
 
 	/* default user will be able to use sudo */
 	sudo_directives = g_string_new("");
-	g_string_printf(sudo_directives, "# User rules for %s\n%s\n\n", DEFAULT_USER_USERNAME, DEFAULT_USER_SUDO);
-	if (!write_sudo_directives(sudo_directives, DEFAULT_USER_USERNAME"-cloud-init", O_CREAT|O_TRUNC|O_WRONLY)) {
+	g_string_printf(sudo_directives, "# User rules for %s\n%s\n\n",
+		DEFAULT_USER_USERNAME, DEFAULT_USER_SUDO);
+	if (!write_sudo_directives(sudo_directives, DEFAULT_USER_USERNAME"-cloud-init",
+			O_CREAT|O_TRUNC|O_WRONLY)) {
 		LOG("Failed to enable sudo rule for user: %s\n", DEFAULT_USER_USERNAME);
 	}
 	g_string_free(sudo_directives, true);
@@ -303,18 +305,19 @@ int main(int argc, char *argv[]) {
 		if (!getpwnam(DEFAULT_USER_USERNAME)) {
 			/* default user will be used by ccmodules and datasources */
 			g_snprintf(command, LINE_MAX, USERADD_PATH
-					" -U -d '%s' -G '%s' -f '%s' -e '%s' -s '%s' -c '%s' -p '%s' '%s'"
-					, DEFAULT_USER_HOME_DIR
-					, DEFAULT_USER_GROUPS
-					, DEFAULT_USER_INACTIVE
-					, DEFAULT_USER_EXPIREDATE
-					, DEFAULT_USER_SHELL
-					, DEFAULT_USER_GECOS
-					, DEFAULT_USER_PASSWORD
-					, DEFAULT_USER_USERNAME);
+				" -U -d '%s' -G '%s' -f '%s' -e '%s' -s '%s' -c '%s' -p '%s' '%s'"
+				, DEFAULT_USER_HOME_DIR
+				, DEFAULT_USER_GROUPS
+				, DEFAULT_USER_INACTIVE
+				, DEFAULT_USER_EXPIREDATE
+				, DEFAULT_USER_SHELL
+				, DEFAULT_USER_GECOS
+				, DEFAULT_USER_PASSWORD
+				, DEFAULT_USER_USERNAME);
 			exec_task(command);
 		} else {
-			g_snprintf(command, LINE_MAX, USERMOD_PATH " -p '%s' %s", DEFAULT_USER_PASSWORD, DEFAULT_USER_USERNAME);
+			g_snprintf(command, LINE_MAX, USERMOD_PATH " -p '%s' %s",
+				DEFAULT_USER_PASSWORD, DEFAULT_USER_USERNAME);
 			exec_task(command);
 		}
 	}

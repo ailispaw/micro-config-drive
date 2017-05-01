@@ -310,7 +310,8 @@ bool write_ssh_keys(const GString* data, const gchar* username) {
 			g_free(auth_keys_content);
 			g_strfreev(vector_ssh_keys);
 
-			if (!write_file(ssh_keys->str, ssh_keys->len, auth_keys_file, O_APPEND|O_WRONLY, S_IRUSR|S_IWUSR)) {
+			if (!write_file(ssh_keys->str, ssh_keys->len, auth_keys_file,
+					O_APPEND|O_WRONLY, S_IRUSR|S_IWUSR)) {
 				g_string_free(ssh_keys, true);
 				return false;
 			}
@@ -535,7 +536,8 @@ bool save_instance_id(const gchar* instance_id) {
 	struct stat st;
 
 	if (stat(INSTANCE_ID_FILE, &st) != 0) {
-		if (!write_file(instance_id, strlen(instance_id), INSTANCE_ID_FILE, O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
+		if (!write_file(instance_id, strlen(instance_id), INSTANCE_ID_FILE,
+				O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
 			LOG(MOD "Unable to save instance id\n");
 			goto exit;
 		}
@@ -546,7 +548,8 @@ bool save_instance_id(const gchar* instance_id) {
 		}
 		if (g_strcmp0(instance_id, last_instance_id) != 0) {
 			g_free(last_instance_id);
-			if (!write_file(instance_id, strlen(instance_id), INSTANCE_ID_FILE, O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
+			if (!write_file(instance_id, strlen(instance_id), INSTANCE_ID_FILE,
+					O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
 				LOG(MOD "Unable to save instance id\n");
 				goto exit;
 			}
@@ -572,7 +575,8 @@ bool is_first_boot(void) {
 	if (stat(FIRST_BOOT_ID_FILE, &st) != 0) {
 		cache_firstboot = 1;
 		boot_id = get_boot_id();
-		if (!boot_id || !write_file(boot_id, strlen(boot_id), FIRST_BOOT_ID_FILE, O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
+		if (!boot_id || !write_file(boot_id, strlen(boot_id), FIRST_BOOT_ID_FILE,
+				O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
 			LOG(MOD "Unable to save boot id\n");
 			goto exit;
 		}

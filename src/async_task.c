@@ -121,8 +121,8 @@ bool async_task_exec(const gchar* command) {
 	gchar* argvp[] = {SHELL_PATH, "-c", command_line, NULL };
 
 	g_spawn_async(NULL, argvp, NULL,
-	              G_SPAWN_DO_NOT_REAP_CHILD,
-				  NULL, NULL, &pid, &error);
+		G_SPAWN_DO_NOT_REAP_CHILD,
+		NULL, NULL, &pid, &error);
 
 	if (error) {
 		LOG(MOD "Error running async command: %s\n", error->message);

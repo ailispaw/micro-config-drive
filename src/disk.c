@@ -65,23 +65,23 @@ static PedExceptionOption disk_exception_handler(PedException* ex) {
 
 char *disk_by_path(const gchar* path) {
 	char diskname[NAME_MAX];
-    struct stat st = { 0 };
-    dev_t disk;
+	struct stat st = { 0 };
+	dev_t disk;
 
-    if (!path) {
+	if (!path) {
 		LOG(MOD "Path is empty\n");
-        return NULL;
-    }
-    if (stat(path, &st) != 0) {
+		return NULL;
+	}
+	if (stat(path, &st) != 0) {
 		LOG(MOD "Cannot stat '%s'\n", path);
-        return NULL;
-    }
-    if (blkid_devno_to_wholedisk(st.st_dev, diskname, sizeof(diskname), &disk) != 0) {
+		return NULL;
+	}
+	if (blkid_devno_to_wholedisk(st.st_dev, diskname, sizeof(diskname), &disk) != 0) {
 		LOG(MOD "Cannot convert devno to wholedisk\n");
 		return NULL;
-    }
+	}
 
-    return blkid_devno_to_devname(disk);
+	return blkid_devno_to_devname(disk);
 }
 
 gboolean disk_fix(const gchar* disk_path) {
@@ -158,7 +158,8 @@ gboolean disk_fix(const gchar* disk_path) {
 		return false;
 	}
 
-	constraint = ped_constraint_new(ped_alignment_any, ped_alignment_any, &geometry_start, geometry_end, 1, dev->length);
+	constraint = ped_constraint_new(ped_alignment_any, ped_alignment_any,
+		&geometry_start, geometry_end, 1, dev->length);
 
 	if (!constraint) {
 		LOG(MOD "Cannot create a new constraint disk '%s'\n", disk_path);

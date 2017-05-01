@@ -180,11 +180,13 @@ bool openstack_start(void) {
 
 	openstack_metadata_options_htable = g_hash_table_new(g_str_hash, g_str_equal);
 	for (i = 0; openstack_metadata_options[i].key != NULL; ++i) {
-		g_hash_table_insert(openstack_metadata_options_htable, (gpointer)openstack_metadata_options[i].key,
-		                    *((openstack_metadata_data_func**)(&openstack_metadata_options[i].func)));
+		g_hash_table_insert(openstack_metadata_options_htable,
+			(gpointer)openstack_metadata_options[i].key,
+			*((openstack_metadata_data_func**)(&openstack_metadata_options[i].func)));
 	}
 
-	g_node_children_foreach(metadata_node, G_TRAVERSE_ALL, (GNodeForeachFunc)openstack_process_uuid, NULL);
+	g_node_children_foreach(metadata_node, G_TRAVERSE_ALL,
+		(GNodeForeachFunc)openstack_process_uuid, NULL);
 
 	return true;
 }
@@ -204,7 +206,7 @@ bool openstack_process_metadata(void) {
 		if (!g_file_get_contents(OPENSTACK_METADATA_ID_FILE, &metadata_id, NULL, NULL)) {
 			LOG(MOD "Unable to read file '%s'\n", OPENSTACK_METADATA_ID_FILE);
 		}
-		if(metadata_id) {
+		if (metadata_id) {
 			boot_id = get_boot_id();
 			if (g_strcmp0(boot_id, metadata_id) == 0) {
 				cache_metadata_id = true;
@@ -233,7 +235,8 @@ bool openstack_process_metadata(void) {
 
 	cache_metadata_id = true;
 	boot_id = get_boot_id();
-	if (!write_file(boot_id, strlen(boot_id), OPENSTACK_METADATA_ID_FILE, O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
+	if (!write_file(boot_id, strlen(boot_id), OPENSTACK_METADATA_ID_FILE,
+			O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
 		LOG("Unable to save metadata id in '%s'\n", OPENSTACK_METADATA_ID_FILE);
 	}
 	g_free(boot_id);
@@ -256,7 +259,7 @@ bool openstack_process_userdata(void) {
 		if (!g_file_get_contents(OPENSTACK_USER_DATA_ID_FILE, &user_data_id, NULL, NULL)) {
 			LOG(MOD "Unable to read file '%s'\n", OPENSTACK_USER_DATA_ID_FILE);
 		}
-		if(user_data_id) {
+		if (user_data_id) {
 			boot_id = get_boot_id();
 			if (g_strcmp0(boot_id, user_data_id) == 0) {
 				cache_user_data_id = true;
@@ -284,7 +287,8 @@ bool openstack_process_userdata(void) {
 
 	cache_user_data_id = true;
 	boot_id = get_boot_id();
-	if (!write_file(boot_id, strlen(boot_id), OPENSTACK_USER_DATA_ID_FILE, O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
+	if (!write_file(boot_id, strlen(boot_id), OPENSTACK_USER_DATA_ID_FILE,
+			O_CREAT|O_TRUNC|O_WRONLY, S_IRUSR|S_IWUSR)) {
 		LOG("Unable to save user data id in '%s'\n", OPENSTACK_USER_DATA_ID_FILE);
 	}
 	g_free(boot_id);
@@ -311,7 +315,8 @@ void openstack_finish(void) {
 	}
 
 	if (metadata_node) {
-		g_node_traverse(metadata_node, G_POST_ORDER, G_TRAVERSE_ALL, -1, (GNodeTraverseFunc)gnode_free, NULL);
+		g_node_traverse(metadata_node, G_POST_ORDER, G_TRAVERSE_ALL,
+			-1, (GNodeTraverseFunc)gnode_free, NULL);
 		g_node_destroy(metadata_node);
 		metadata_node = NULL;
 	}
@@ -357,7 +362,8 @@ gboolean openstack_process_metadata_file(const gchar* filename) {
 		return false;
 	}
 
-	g_node_children_foreach(metadata_node, G_TRAVERSE_ALL, (GNodeForeachFunc)openstack_run_handler, NULL);
+	g_node_children_foreach(metadata_node, G_TRAVERSE_ALL,
+		(GNodeForeachFunc)openstack_run_handler, NULL);
 
 	return true;
 }
@@ -400,7 +406,8 @@ static bool openstack_process_config_drive_userdata(void) {
 	struct stat st;
 	gchar userdata_drive_path[PATH_MAX] = { 0 };
 
-	g_snprintf(userdata_drive_path, PATH_MAX, "%s%s", config_drive_mount_path, OPENSTACK_USERDATA_FILE);
+	g_snprintf(userdata_drive_path, PATH_MAX, "%s%s",
+		config_drive_mount_path, OPENSTACK_USERDATA_FILE);
 
 	if (stat(userdata_drive_path, &st) != 0) {
 		LOG(MOD "User data file not found in config drive\n");
@@ -435,7 +442,7 @@ static bool openstack_process_config_drive_userdata(void) {
 static void openstack_run_handler(GNode *node, __unused__ gpointer null) {
 	if (node->data) {
 		gpointer ptr = g_hash_table_lookup(openstack_metadata_options_htable, node->data);
-		if(ptr) {
+		if (ptr) {
 			LOG(MOD "Metadata using '%s' handler\n", (char*)node->data);
 			openstack_metadata_data_func func = *(openstack_metadata_data_func*)(&ptr);
 			async_task_run((GThreadFunc)func, node->children);
@@ -508,7 +515,7 @@ static int openstack_metadata_files(GNode* node) {
 			switch (data_source) {
 			case SOURCE_CONFIG_DRIVE:
 				g_snprintf(src_content_file, PATH_MAX, "%s/openstack/%s",
-				           config_drive_mount_path, content_path);
+					config_drive_mount_path, content_path);
 				if (!copy_file(src_content_file, path)) {
 					LOG(MOD "Copy file '%s' failed\n", src_content_file);
 				}

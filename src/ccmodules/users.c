@@ -93,7 +93,7 @@ static void users_add_groups(GNode* node, GString* command, __unused__ gpointer 
 		users_add_option_format(node, command, " -G '%s' ");
 	} else if (node->children) {
 		g_string_append(command, " -G '");
-		for(group=node->children; group; group=group->next) {
+		for (group=node->children; group; group=group->next) {
 			g_string_append(command, group->data);
 			g_string_append(command, ",");
 		}
@@ -125,8 +125,8 @@ static void users_add_option(GNode* node, GString* command, gpointer data) {
 }
 
 static gboolean users_sudo_item(GNode* node, gpointer data) {
-	g_string_append_printf((GString*)data, "%s %s\n", users_current_username,
-	    (char*)node->data);
+	g_string_append_printf((GString*)data, "%s %s\n",
+		users_current_username, (char*)node->data);
 	return false;
 }
 
@@ -211,12 +211,12 @@ static void users_item(GNode* node, gpointer data) {
 		if (item) {
 			sudo_directives = g_string_new("");
 			g_string_printf(sudo_directives, "# Rules for %s user\n",
-			    users_current_username);
+				users_current_username);
 			g_node_traverse(item->parent, G_IN_ORDER, G_TRAVERSE_LEAVES,
 				-1, users_sudo_item, sudo_directives);
 			g_string_append(sudo_directives, "\n");
 			if (!write_sudo_directives(sudo_directives, "users-cloud-init",
-			     O_CREAT|O_APPEND|O_WRONLY)) {
+					O_CREAT|O_APPEND|O_WRONLY)) {
 				LOG(MOD "Cannot write sudo directives\n");
 			}
 			g_string_free(sudo_directives, true);

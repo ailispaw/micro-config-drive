@@ -64,8 +64,7 @@ void ssh_authorized_keys_handler(GNode *node) {
 
 	LOG(MOD "User %s\n", (char*)username);
 	ssh_keys = g_string_new("");
-	g_node_traverse(node, G_IN_ORDER, G_TRAVERSE_LEAVES,
-			-1, ssh_authorized_keys_item, ssh_keys);
+	g_node_traverse(node, G_IN_ORDER, G_TRAVERSE_LEAVES, -1, ssh_authorized_keys_item, ssh_keys);
 	if (!write_ssh_keys(ssh_keys, username)) {
 		LOG(MOD "Cannot write ssh keys\n");
 	}
